@@ -96,7 +96,7 @@ function renderDay(d, idx){
 
   const sub = document.createElement('div');
   sub.className = 'daySub';
-  sub.textContent = `${dayLabelWithDate(d)} · Time · Destination · Transport · Budget`;
+  sub.textContent = `${dayLabelWithDate(d)}`;
   left.appendChild(title);
   left.appendChild(sub);
 
@@ -115,7 +115,7 @@ function renderDay(d, idx){
     <thead><tr>
       <th class="colTime">🕒 Time</th>
       <th>📍 Destination</th>
-      <th>🚆 Transport / Notes</th>
+      <th>🚆 Notes</th>
       <th class="colYen">💴 Budget</th>
     </tr></thead>
     <tbody></tbody>
@@ -252,6 +252,9 @@ function setState(newIndex){
   });
 
   pageLabel.textContent = `Viewing: ${dayLabelWithDate(days[current])} (${current+1}/${days.length})`;
+
+  // v8: on mobile single-page mode, jump to top when changing day
+  if (window.matchMedia && window.matchMedia('(max-width: 520px)').matches){ window.scrollTo(0,0); }
 
   prevBtn.disabled = current === 0;
   nextBtn.disabled = current === days.length - 1;
@@ -413,7 +416,7 @@ function initSwipe(){
 
   function shouldIgnoreTarget(t){
     if(!t) return false;
-    return !!t.closest('button, input, select, textarea, a, label, .tableWrap');
+    return !!t.closest('button, input, select, textarea, a, label');
   }
 
   function onStart(x, y, target){

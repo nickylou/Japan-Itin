@@ -301,3 +301,41 @@ body:not(.light) .searchLabel{ color: rgba(229,231,235,.9); border-color: rgba(2
   overscroll-behavior: contain;
   touch-action: pan-y;
 }
+
+/* v8: Mobile "single-page scroll" mode (avoid inner scroll conflicts) */
+@media (max-width: 520px){
+  .book{
+    aspect-ratio: auto !important;
+    max-height: none !important;
+    height: auto !important;
+    perspective: none !important;
+  }
+  .page{
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    transition: none !important;
+    display: none;
+    height: auto !important;
+    overflow: visible !important;
+    margin: 0 auto;
+  }
+  .page.active{ display:block; }
+  .page .front, .page .back{
+    position: relative !important;
+    transform: none !important;
+    backface-visibility: visible !important;
+    padding: 14px 14px 12px !important;
+    overflow: visible !important;
+  }
+  /* keep it simple on mobile */
+  .page .back{ display:none !important; }
+
+  /* show full table; rely on page scroll */
+  .tableWrap{
+    overflow: visible !important;
+    -webkit-overflow-scrolling: auto !important;
+    touch-action: pan-y;
+  }
+  thead th{ position: static !important; }
+}
