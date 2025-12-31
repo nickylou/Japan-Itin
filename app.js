@@ -52,10 +52,14 @@ function highlight(text, q){
   return safe.replace(re, (m) => `<mark class="hl">${m}</mark>`);
 }
 function dayDateISO(dayNumber){
-  const base = new Date(startDate + 'T00:00:00');
+  // IMPORTANT: avoid toISOString() because it converts to UTC and can shift the date on non-UTC timezones.
+  const base = new Date(startDate + 'T00:00:00'); // local midnight
   const d = new Date(base);
   d.setDate(base.getDate() + (dayNumber - 1));
-  return d.toISOString().slice(0,10);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2,'0');
+  const da = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${da}`;
 }
 function dayLabelWithDate(d){
   const iso = dayDateISO(d.day);
