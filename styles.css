@@ -282,3 +282,22 @@ body:not(.light) .searchLabel{ color: rgba(229,231,235,.9); border-color: rgba(2
   .tableWrap{overflow:visible}
   thead th{position:static}
 }
+
+/* v6: ensure long days scroll on mobile + prevent clipping */
+.page .front, .page .back{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+.sheet{
+  flex:1 1 auto;
+  min-height:0;
+}
+.tableWrap{
+  flex:1 1 auto;
+  min-height:0;
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}

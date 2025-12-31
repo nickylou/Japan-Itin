@@ -1,5 +1,16 @@
 
-const { days, dayEmoji, startDate } = window.ITINERARY_DATA;
+
+const DATA = window.ITINERARY_DATA;
+if(!DATA || !DATA.days){
+  const msg = 'Itinerary data missing. Make sure index.html loads window.ITINERARY_DATA before app.js, and save files as UTF-8.';
+  document.body.innerHTML = `<div style="padding:18px;font-family:system-ui;color:#111;background:#fff">
+    <h2 style="margin:0 0 8px 0;">⚠️ App failed to load</h2>
+    <div>${msg}</div>
+  </div>`;
+  throw new Error(msg);
+}
+
+const { days, dayEmoji, startDate } = DATA;
 
 const book = document.getElementById('book');
 const jumpSelect = document.getElementById('jumpSelect');
@@ -85,7 +96,7 @@ function renderDay(d, idx){
 
   const sub = document.createElement('div');
   sub.className = 'daySub';
-  sub.textContent = `${dayLabelWithDate(d)}`;
+  sub.textContent = `${dayLabelWithDate(d)} · Time · Destination · Transport · Budget`;
   left.appendChild(title);
   left.appendChild(sub);
 
@@ -104,7 +115,7 @@ function renderDay(d, idx){
     <thead><tr>
       <th class="colTime">🕒 Time</th>
       <th>📍 Destination</th>
-      <th>🚆 Notes</th>
+      <th>🚆 Transport / Notes</th>
       <th class="colYen">💴 Budget</th>
     </tr></thead>
     <tbody></tbody>
@@ -402,7 +413,7 @@ function initSwipe(){
 
   function shouldIgnoreTarget(t){
     if(!t) return false;
-    return !!t.closest('button, input, select, textarea, a, label');
+    return !!t.closest('button, input, select, textarea, a, label, .tableWrap');
   }
 
   function onStart(x, y, target){
